@@ -1,0 +1,368 @@
+/* GLOBALS */
+
+:root {
+  /* --color-primary: rgb(54, 112, 199); */
+  /* --color-primary: #8294C4; */
+  --color-primary: #4e31aa;
+  --color-background-gradient: linear-gradient(
+    135deg,
+    #655dbb 40%,
+    #2b3467 100%
+  );
+
+  --color-light: #f4f4f4;
+  --color-dark: #333;
+  /* --color-warning: rgb(99, 36, 36); */
+  --color-warning: #FF6666;
+}
+
+*,
+*::after,
+*::before {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+
+  font-family: inherit;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+
+  background: var(--color-primary); /* fallback */
+  background: var(--color-background-gradient);
+
+  display: grid;
+  grid:
+    "header header header header" 10rem
+    "...... category todo ......" 1fr
+    "footer footer footer footer" 5rem /
+    1fr minmax(100px, 300px) minmax(250px, 500px) 1fr;
+  align-items: start;
+
+  min-height: 500px;
+  height: 100vh;
+}
+
+/*
+ * hide default browser checkbox
+ * becuase we want to show a custom checkbox 
+*/
+input[type="checkbox"] {
+  opacity: 0;
+  /* take out of document flow, so it has no occupied space */
+  position: absolute;
+  /* custom checkbox maybe has same position as hidden default checkbox */
+  pointer-events: none;
+}
+
+/***************************************************/
+/* components */
+
+/****************************/
+/* breakable text */
+.breakable {
+  word-wrap: break-word; /* alias for overflow-wrap */
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+/****************************/
+/* form input */
+.new-form {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  height: 2.2rem;
+
+  margin-top: 1rem;
+}
+
+.new-input {
+  /*
+  * why not swapping the order in the html code?
+  * beceause the last button in html code can be submit button
+  * it means if we place button before the input in html
+  * clicking button will not trigger submit event
+  */
+  order: 2;
+
+  background: transparent;
+  border: none;
+  color: inherit;
+  padding: 0.25rem;
+  border-bottom: 1px solid currentColor;
+  font-size: 1.2rem;
+  outline: none;
+
+  transition: border-bottom 100ms ease-in;
+}
+
+.new-input:focus {
+  border-bottom-width: 3px;
+}
+
+.new-input::placeholder {
+  color: inherit;
+  opacity: 0.7;
+}
+
+/****************************/
+/* button */
+.btn {
+  cursor: pointer;
+  background: none;
+  border: none;
+  /* color: var(--color-light); */
+  color: inherit;
+}
+
+.btn.btn-add {
+  font-size: 1.2rem;
+  font-weight: 500;
+  border: 1px solid var(--color-light);
+  border-color: inherit;
+  border-radius: 3px;
+  width: 1.75rem;
+  height: 1.75rem;
+
+  transition: 0.25s;
+}
+
+.btn.btn-add:hover {
+  /* box-shadow: 0px 0px 5px var(--color-light); */
+  /* color: inherit; */
+  box-shadow: 0px 0px 5px currentColor;
+  opacity: 0.8;
+}
+
+/***************************************************/
+/* header */
+.header {
+  grid-area: header;
+  place-self: center;
+
+  font-size: 3rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/***************************************************/
+/* category */
+.category-container {
+  grid-area: category;
+
+  color: var(--color-light);
+}
+
+.category-container-title {
+  margin-bottom: 1rem;
+  font-size: 1.75rem;
+}
+
+.category-list {
+  padding-left: 1.1rem;
+  list-style-type: circle;
+}
+
+.category-item {
+  margin-bottom: 0.2rem;
+  padding: 0.5rem;
+  font-size: 1.2rem;
+
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+.category-item:hover {
+  padding-left: 1rem;
+  opacity: 0.7;
+}
+
+.category-item.active {
+  font-weight: 600;
+}
+
+/* modifier for .new-input */
+.new-input.new-category {
+  /* font-size: 1.1rem; */
+}
+
+/***************************************************/
+/* todo */
+.todo-list-container {
+  --spacer: 1.5rem;
+  grid-area: todo;
+
+  background-color: var(--color-light);
+  color: var(--color-dark);
+}
+
+.todo-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+
+  background-color: #e4e4e4;
+  padding: var(--spacer);
+}
+
+.todo-count {
+  flex-shrink: 0;
+  font-size: 0.9rem;
+}
+
+.todo-body {
+  position: relative; /* for delete buttons container */
+  padding: var(--spacer);
+}
+
+.todo-item-container {
+  /* 
+   * this div has label element as child
+   * the default style for label will set a different value for cursor
+   * (labael {cursor: default})
+   * for cursor property, child will override parent value
+  */
+  cursor: pointer;
+  margin-bottom: 1.25rem;
+
+  position: relative; /* for ::after element (line separator) */
+}
+
+/* horizonal line separator */
+.todo-item-container::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  left: 0;
+  bottom: -0.6rem;
+  height: 1px;
+  background: var(--color-dark);
+  opacity: 0.1;
+}
+
+.todo-item {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+
+  /* by default, the lable element has cursor: default */
+  cursor: inherit;
+}
+
+.todo-item-text {
+  position: relative; /* for ::after element (line-through) */
+}
+
+/* line-through for a done task */
+.todo-item-text::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  /* right: 0; */
+  height: 1.5px;
+  width: 100%;
+  background: var(--color-dark);
+
+  transition: 0.2s;
+  transform-origin: left;
+  transform: scaleX(0) translateY(-50%);
+}
+
+.btn.btn-add.new-todo {
+  color: var(--color-primary);
+}
+
+/****************************/
+/* checkbox */
+.custom-checkbox {
+  --size: 0.75rem;
+  /* display: inline-block; */
+  flex-shrink: 0;
+
+  width: var(--size);
+  height: var(--size);
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  cursor: pointer;
+
+  transform: scale(1);
+  transition: transform 0.2s ease-in-out;
+}
+
+/* the hover and focus (switch with tab) state have the same style */
+.todo-item-container:hover .custom-checkbox,
+/* '+' means the only custom-checkbox next to any focused input,
+ * but '+' works for the childs with same value of depth
+ * so we have to specify todo-item first
+ */
+input[type="checkbox"]:focus + .todo-item .custom-checkbox {
+  color: var(--color-primary);
+  transform: scale(1.2);
+}
+
+input[type="checkbox"]:checked + .todo-item .custom-checkbox {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  box-shadow: inset 0 0 0 2px #fff;
+}
+
+input[type="checkbox"]:checked + .todo-item {
+  opacity: 0.5;
+}
+
+input[type="checkbox"]:checked + .todo-item .todo-item-text::after {
+  transform: scaleX(1) translateY(-50%);
+}
+
+/****************************/
+/* delete buttons container */
+.delete-buttons-container {
+  display: flex;
+  justify-content: space-evenly;
+
+  position: absolute;
+  width: 100%;
+  left: 0;
+  bottom: -2rem;
+}
+
+.btn.btn-delete {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--color-light);
+  opacity: 0.8;
+
+  transition: 0.2s;
+}
+
+.btn.btn-delete:hover {
+  color: var(--color-warning);
+}
+
+/***************************************************/
+/* footer */
+.footer {
+  grid-area: footer;
+  place-self: center;
+
+  font-size: 1.1rem;
+
+  color: var(--color-light);
+}
+
+.mention-link {
+  text-decoration: none;
+  color: inherit;
+
+  transition: 0.25s;
+}
+
+.mention-link:hover {
+  text-decoration: underline;
+  color: #aaa;
+}
