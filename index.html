@@ -13,6 +13,8 @@
     />
     <!-- styles -->
     <link rel="stylesheet" href="/src/css/main.css" />
+    <!-- scripts -->
+    <script defer src="/src/js/script.js"></script>
   </head>
   <body>
     <h1 class="header">Todo App Vanilla JS</h1>
@@ -20,18 +22,19 @@
     <div class="category-container">
       <h2 class="category-container-title">Lists</h2>
 
-      <ul class="category-list breakable">
-        <li class="category-item active">Work</li>
+      <ul class="category-list breakable" data-category-list>
+        <!-- <li class="category-item active">Work</li>
         <li class="category-item">University</li>
-        <li class="category-item">Grocery</li>
+        <li class="category-item">Grocery</li> -->
       </ul>
 
-      <form action="" class="new-form">
+      <form action="" class="new-form" data-new-category-form>
         <input
           type="text"
           class="new-input new-category"
           placeholder="new list name"
           aria-label="new list name"
+          data-new-category-input
         />
         <button class="btn btn-add new-category" aria-label="create new list">
           +
@@ -39,67 +42,39 @@
       </form>
     </div>
 
-    <div class="todo-list-container">
+    <div class="todo-list-container" data-todo-list-container>
       <div class="todo-header">
-        <h2 class="todo-header-title">University</h2>
-        <p class="todo-count">3 tasks remaining</p>
+        <h2 class="todo-header-title" data-todo-header-title>University</h2>
+        <p class="todo-count" data-todo-count>3 tasks remaining</p>
       </div>
 
       <div class="todo-body">
-        <div class="todo-list breakable">
-          <!-- <todo-1> -->
-          <div class="todo-item-container">
-            <input type="checkbox" id="todo-1" />
-            <label class="todo-item" for="todo-1">
-              <span class="custom-checkbox"></span>
-              <span class="todo-item-text"
-                >choose the courses for new semester</span
-              >
-            </label>
-          </div>
-          <!-- </todo-1> -->
-          <!-- <todo-2> -->
-          <div class="todo-item-container">
-            <input type="checkbox" id="todo-2" />
-            <label class="todo-item" for="todo-2">
-              <span class="custom-checkbox"></span>
-              <span class="todo-item-text"
-                >choose the courses for new semester</span
-              >
-            </label>
-          </div>
-          <!-- </todo-2> -->
-          <!-- <todo-3> -->
-          <div class="todo-item-container">
-            <input type="checkbox" id="todo-3" />
-            <label class="todo-item" for="todo-3">
-              <span class="custom-checkbox"></span>
-              <span class="todo-item-text"
-                >choose the courses for new semester</span
-              >
-            </label>
-          </div>
-          <!-- </todo-3> -->
-          <!-- <todo-4> -->
-          <div class="todo-item-container">
-            <input type="checkbox" id="todo-4" />
-            <label class="todo-item" for="todo-4">
-              <span class="custom-checkbox"></span>
-              <span class="todo-item-text"
-                >choose the courses for new semester</span
-              >
-            </label>
-          </div>
-          <!-- </todo-4> -->
+        <div class="todo-list breakable" data-todo-list>
+          <!-- 
+            template tag will not render in page until we clone it with js
+            so the tag can be placed any where
+            but we place it here to show which dom element it should be appended to
+            (it must be appended to [data-todo-list])
+           -->
+          <template id="todo-item-template">
+            <div class="todo-item-container">
+              <input type="checkbox" id="TEMPLATE_ID" />
+              <label class="todo-item" for="TEMPLATE_ID">
+                <span class="custom-checkbox"></span>
+                <span class="todo-item-text">TEMPLATE_TEXT</span>
+              </label>
+            </div>
+          </template>
         </div>
 
         <div class="new-todo-container">
-          <form action="" class="new-form">
+          <form action="" class="new-form" data-new-todo-form>
             <input
               type="text"
               class="new-input new-todo"
               placeholder="new task name"
               aria-label="new task name"
+              data-new-todo-input
             />
             <button class="btn btn-add new-todo" aria-label="create new task">
               +
@@ -108,8 +83,12 @@
         </div>
 
         <div class="delete-buttons-container">
-          <button class="btn btn-delete">Clear completed tasks</button>
-          <button class="btn btn-delete">Delete list</button>
+          <button class="btn btn-delete" data-clear-done-todos-button>
+            Clear completed tasks
+          </button>
+          <button class="btn btn-delete" data-delete-category-button>
+            Delete list
+          </button>
         </div>
       </div>
     </div>
@@ -119,14 +98,23 @@
         Made by
         <a
           class="mention-link"
+          target="_blank"
           href="https://www.youtube.com/@WebDevSimplified"
         >
           @Kyle</a
         >,
-        <a class="mention-link" href="https://www.youtube.com/@KevinPowell">
+        <a
+          class="mention-link"
+          target="_blank"
+          href="https://www.youtube.com/@KevinPowell"
+        >
           @Kevin</a
         >,
-        <a class="mention-link" href="https://github.com/alborzasd">
+        <a
+          class="mention-link"
+          target="_blank"
+          href="https://github.com/alborzasd"
+        >
           @Alborz
         </a>
       </p>
